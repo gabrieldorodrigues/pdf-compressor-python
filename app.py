@@ -11,13 +11,13 @@ os.makedirs(app.config['COMPRESSED_FOLDER'], exist_ok=True)
 
 def compress_pdf(input_pdf, output_pdf, quality):
     command = [
-        "C:\\Program Files\\gs\\gs10.04.0\\bin\\gswin64c.exe",
+        "C:\\Program Files\\gs\\gs10.04.0\\bin\\gswin64c.exe", # Caminho do executável do Ghostscript. Certifique-se de que este caminho esteja correto.
         "-sDEVICE=pdfwrite",
-        f"-dPDFSETTINGS=/{quality}",
+        f"-dPDFSETTINGS=/{quality}", # Define as configurações de compressão do PDF com base na qualidade selecionada. A qualidade pode ser /screen, /ebook, /printer, etc.
         "-dNOPAUSE",
         "-dQUIET",
         "-dBATCH",
-        f"-sOutputFile={output_pdf}",
+        f"-sOutputFile={output_pdf}", # Especifica o arquivo de saída onde o PDF comprimido será salvo.
         input_pdf
     ]
 

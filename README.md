@@ -1,63 +1,148 @@
-# PDF-Compressor
+# PDF Compressor - Electron App
 
-Um aplicativo simples de compressão de arquivos PDF utilizando Flask e Ghostscript. Este projeto permite que os usuários façam upload de um arquivo PDF e o comprima usando diferentes configurações de qualidade.
+Este é um compressor de PDF moderno construído com **Electron** e **React**, eliminando a necessidade do Ghostscript e oferecendo uma interface nativa de desktop.
 
-## Índice
+## ✨ Funcionalidades
 
-- [Recursos](#recursos)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Como Funciona](#como-funciona)
+- 📁 Interface nativa para seleção de arquivos
+- 🗜️ Compressão de PDF usando JavaScript puro (pdf-lib)
+- 🎨 Interface moderna e responsiva
+- 📱 Funciona como aplicação desktop nativa
+- 🚫 **Sem dependências externas** (não precisa do Ghostscript)
+- 💾 Diálogo nativo para salvar arquivos
 
-## Recursos
+## 🚀 Tecnologias Utilizadas
 
-- Upload de arquivos PDF.
-- Compressão de arquivos PDF com diferentes níveis de qualidade.
-- Download do arquivo PDF comprimido.
+- **Electron** - Framework para aplicações desktop
+- **React** - Interface de usuário
+- **pdf-lib** - Manipulação de PDF em JavaScript
+- **CSS3** - Estilização moderna com gradientes e efeitos
 
-## Pré-requisitos
+## 📋 Requisitos
 
-Antes de começar, você precisará ter instalado em sua máquina:
+- Node.js 16.x ou superior
+- npm ou yarn
 
-- **Python** (versão 3.6 ou superior)
-- **Flask** (framework para aplicações web)
-- **Ghostscript** (ferramenta para processamento de arquivos PDF)
-
-### Instalação do Ghostscript
-
-1. Baixe e instale o Ghostscript a partir do [site oficial](https://www.ghostscript.com/download/gsdnld.html).
-2. Durante a instalação, anote o caminho de instalação, pois você precisará dele mais tarde.
-
-## Instalação
+## 🛠️ Instalação
 
 1. Clone este repositório:
 
    ```bash
-   git clone https://github.com/gabrieldorodrigues/pdf-compressor.git
-   cd pdf-compressor
+   git clone https://github.com/gabrieldorodrigues/pdf-compressor-python.git
+   cd pdf-compressor-python
    ```
 
-2. Crie um ambiente virtual (opcional, mas recomendado):
-
+2. Instale as dependências:
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # No Windows use: venv\Scripts\activate
+   npm install
    ```
 
-3. Instale as dependências:
+## 🎮 Como Usar
 
-   ```bash
-   pip install Flask
-   ```
+### Modo Desenvolvimento
+
+```bash
+npm run electron-dev
+```
+
+Este comando iniciará tanto o servidor React quanto o Electron simultaneamente.
+
+### Modo Produção
+
+```bash
+npm run build
+npm run electron
+```
+
+### Gerar Executável
+
+```bash
+npm run dist
+```
+
+Isso criará um executável na pasta `dist/` para o seu sistema operacional.
+
+## 📚 Níveis de Compressão
+
+- **Baixa**: Máxima compressão, menor qualidade (ideal para visualização em tela)
+- **Média**: Balanceado entre tamanho e qualidade (recomendado para a maioria dos casos)
+- **Alta**: Menor compressão, maior qualidade (ideal para impressão)
+
+## 📁 Estrutura do Projeto
+
+```
+pdf-compressor-python/
+├── public/
+│   ├── electron.js          # Processo principal do Electron
+│   ├── preload.js          # Script de preload para segurança
+│   └── index.html          # Template HTML
+├── src/
+│   ├── components/
+│   │   ├── PDFCompressor.js    # Componente principal
+│   │   └── PDFCompressor.css   # Estilos do componente
+│   ├── App.js              # Componente raiz
+│   ├── App.css             # Estilos globais
+│   ├── index.js            # Ponto de entrada React
+│   └── index.css           # Estilos base
+├── package.json            # Configurações do projeto
+└── README.md              # Este arquivo
+```
+
+## 🔧 Scripts Disponíveis
+
+- `npm start` - Inicia o servidor de desenvolvimento React
+- `npm run build` - Gera build de produção
+- `npm run electron` - Executa o Electron
+- `npm run electron-dev` - Desenvolvimento com hot reload
+- `npm run dist` - Gera executável para distribuição
+
+## 🌟 Vantagens sobre a Versão Python
+
+1. **Sem dependências externas**: Não precisa instalar Ghostscript
+2. **Interface nativa**: Diálogos de sistema para abrir/salvar arquivos
+3. **Multiplataforma**: Funciona em Windows, macOS e Linux
+4. **Moderna**: Interface responsiva e intuitiva
+5. **Standalone**: Executável independente
+
+## 🚨 Migração da Versão Python
+
+A versão anterior em Python com Flask foi substituída por esta versão em Electron para:
+
+- Eliminar a dependência do Ghostscript
+- Oferecer uma experiência desktop nativa
+- Simplificar a instalação e distribuição
+- Modernizar a interface do usuário
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Por favor:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 📞 Suporte
+
+Se você encontrar algum problema ou tiver dúvidas, por favor abra uma [issue](https://github.com/gabrieldorodrigues/pdf-compressor-python/issues) no GitHub.
+
+```bash
+pip install Flask
+```
 
 4. Configure o caminho do Ghostscript no arquivo `app.py`:
 
    Localize a linha:
+
    ```python
    ghostscript_path = "C:\\Program Files\\gs\\gs9.xx\\bin\\gswin64c.exe"
    ```
+
    e atualize para o caminho onde o Ghostscript está instalado.
 
 5. Crie as pastas para upload e compressão:

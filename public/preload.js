@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  selectFile: () => ipcRenderer.invoke("select-file"),
+  selectFile: (fileType) => ipcRenderer.invoke("select-file", fileType),
   saveFile: (fileName, fileBuffer) =>
     ipcRenderer.invoke("save-file", fileName, fileBuffer),
 });

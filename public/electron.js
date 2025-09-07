@@ -43,10 +43,31 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.handle("select-file", async () => {
+ipcMain.handle("select-file", async (event, fileType = "pdf") => {
+  let filters = [];
+
+  if (fileType === "pdf") {
+    filters = [{ name: "PDF Files", extensions: ["pdf"] }];
+  } else if (fileType === "image") {
+    filters = [
+      { name: "Image Files", extensions: ["jpg", "jpeg", "png"] },
+      { name: "JPEG Files", extensions: ["jpg", "jpeg"] },
+      { name: "PNG Files", extensions: ["png"] },
+    ];
+  } else {
+    filters = [
+      {
+        name: "All Supported Files",
+        extensions: ["pdf", "jpg", "jpeg", "png"],
+      },
+      { name: "PDF Files", extensions: ["pdf"] },
+      { name: "Image Files", extensions: ["jpg", "jpeg", "png"] },
+    ];
+  }
+
   const result = await dialog.showOpenDialog(mainWindow, {
     properties: ["openFile"],
-    filters: [{ name: "PDF Files", extensions: ["pdf"] }],
+    filters: filters,
   });
 
   if (!result.canceled && result.filePaths.length > 0) {

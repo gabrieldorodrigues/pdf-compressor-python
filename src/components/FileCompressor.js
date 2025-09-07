@@ -1,21 +1,41 @@
 import React, { useState } from "react";
 import { FileCompressorService } from "../services/FileCompressorService";
 import FileTypeSelector from "./FileTypeSelector";
-import "./PDFCompressor.css";
+import "./FileCompressor.css";
 
-const PDFCompressor = () => {
+const FileCompressor = () => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [selectedFileType, setSelectedFileType] = useState("pdf");
   const [isCompressing, setIsCompressing] = useState(false);
-  const [compressionLevel, setCompressionLevel] = useState("medium");
+  const [compressionLevel, setCompressionLevel] = useState(2); // 1=baixa, 2=média, 3=alta
   const [progress, setProgress] = useState(0);
   const [compressionResult, setCompressionResult] = useState(null);
 
-  const compressionOptions = {
-    low: { quality: 0.3, description: "Baixa qualidade (menor arquivo)" },
-    medium: { quality: 0.6, description: "Qualidade média (balanceado)" },
-    high: { quality: 0.8, description: "Alta qualidade (arquivo maior)" },
+  const getCompressionSettings = (level) => {
+    const settings = {
+      1: {
+        quality: 0.3,
+        description: "Baixa qualidade (menor arquivo)",
+        name: "Baixa",
+      },
+      2: {
+        quality: 0.6,
+        description: "Qualidade média (balanceado)",
+        name: "Média",
+      },
+      3: {
+        quality: 0.8,
+        description: "Alta qualidade (arquivo maior)",
+        name: "Alta",
+      },
+    };
+    return settings[level];
+  };
+
+  const getCurrentCompressionKey = () => {
+    const keyMap = { 1: "low", 2: "medium", 3: "high" };
+    return keyMap[compressionLevel];
   };
 
   const handleFileSelect = async () => {
@@ -35,7 +55,11 @@ const PDFCompressor = () => {
       } else {
         const input = document.createElement("input");
         input.type = "file";
-        input.accept = ".pdf";
+        if (selectedFileType === "pdf") {
+          input.accept = ".pdf";
+        } else if (selectedFileType === "image") {
+          input.accept = ".jpg,.jpeg,.png";
+        }
         input.onchange = (e) => {
           const selectedFile = e.target.files[0];
           if (selectedFile) {
@@ -69,7 +93,7 @@ const PDFCompressor = () => {
       const result = await FileCompressorService.compressFile(
         file,
         fileName,
-        compressionLevel
+        getCurrentCompressionKey()
       );
 
       setProgress(70);
@@ -121,7 +145,7 @@ const PDFCompressor = () => {
   };
 
   return (
-    <div className="pdf-compressor">
+    <div className="file-compressor">
       <div className="compressor-card">
         <FileTypeSelector
           selectedType={selectedFileType}
@@ -159,30 +183,25 @@ const PDFCompressor = () => {
 
         <div className="options-section">
           <h3>Nível de Compressão</h3>
-          <div className="compression-options">
-            {Object.entries(compressionOptions).map(([key, option]) => (
-              <label key={key} className="compression-option">
-                <input
-                  type="radio"
-                  name="compression"
-                  value={key}
-                  checked={compressionLevel === key}
-                  onChange={(e) => setCompressionLevel(e.target.value)}
-                />
-                <div className="option-content">
-                  <span className="option-title">
-                    {key === "low"
-                      ? "Baixa"
-                      : key === "medium"
-                      ? "Média"
-                      : "Alta"}
-                  </span>
-                  <span className="option-description">
-                    {option.description}
-                  </span>
-                </div>
-              </label>
-            ))}
+          <div className="compression-slider-container">
+            <div className="slider-labels">
+              <span className="label-min">Baixa</span>
+              <span className="label-current">
+                {getCompressionSettings(compressionLevel).name}
+              </span>
+              <span className="label-max">Alta</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="3"
+              value={compressionLevel}
+              onChange={(e) => setCompressionLevel(parseInt(e.target.value))}
+              className="compression-slider"
+            />
+            <div className="compression-description">
+              {getCompressionSettings(compressionLevel).description}
+            </div>
           </div>
         </div>
 
@@ -194,7 +213,7 @@ const PDFCompressor = () => {
                 <div className="stat">
                   <span className="stat-label">Tamanho Original:</span>
                   <span className="stat-value">
-                    {PDFCompressorService.formatFileSize(
+                    {FileCompressorService.formatFileSize(
                       compressionResult.originalSize
                     )}
                   </span>
@@ -270,4 +289,4 @@ const PDFCompressor = () => {
   );
 };
 
-export default PDFCompressor;
+export default FileCompressor;

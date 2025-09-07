@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import PDFCompressor from "./components/PDFCompressor";
+import React from "react";
+import FileCompressor from "./components/FileCompressor";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>PDF Compressor</h1>
-        <p>Comprima seus arquivos PDF sem dependências externas</p>
-      </header>
+      <header className="App-header"></header>
       <main>
-        <PDFCompressor />
+        <FileCompressor />
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
-.pdf-compressor {
+.file-compressor {
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -85,60 +85,86 @@
   font-size: 1.2rem;
 }
 
-.compression-options {
+.compression-slider-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-
-.compression-option {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 1rem;
   border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 15px;
   background: rgba(255, 255, 255, 0.7);
 }
 
-.compression-option:hover {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.05);
-}
-
-.compression-option input[type="radio"] {
-  margin: 0;
-  transform: scale(1.2);
-  accent-color: #667eea;
-}
-
-.compression-option input[type="radio"]:checked {
-  + .option-content {
-    color: #667eea;
-  }
-}
-
-.compression-option:has(input:checked) {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
-}
-
-.option-content {
+.slider-labels {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.option-title {
-  font-weight: 600;
-  color: #333;
-}
-
-.option-description {
-  font-size: 0.85rem;
+.label-min,
+.label-max {
+  font-size: 0.9rem;
   color: #666;
+  font-weight: 500;
+}
+
+.label-current {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.compression-slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #ff6b6b, #ffd93d, #6bcf7f);
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.compression-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  border: 3px solid white;
+  transition: all 0.2s ease;
+}
+
+.compression-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.compression-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  border: 3px solid white;
+  transition: all 0.2s ease;
+}
+
+.compression-description {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  padding: 0.5rem;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 8px;
 }
 
 .actions-section {

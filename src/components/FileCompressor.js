@@ -146,145 +146,141 @@ const FileCompressor = () => {
 
   return (
     <div className="file-compressor">
-      <div className="compressor-card">
-        <FileTypeSelector
-          selectedType={selectedFileType}
-          onTypeChange={setSelectedFileType}
-        />
-
-        <div className="file-section">
-          <div className="file-input-area" onClick={handleFileSelect}>
-            {fileName ? (
-              <div className="file-selected">
-                <div className="file-icon">
-                  {selectedFileType === "pdf" ? "📄" : "🖼️"}
-                </div>
-                <div className="file-info">
-                  <h3>{fileName}</h3>
-                  <p>Clique para selecionar outro arquivo</p>
-                </div>
+      {compressionResult && (
+        <div className="result-modal">
+          <div className="compression-result card-center">
+            <h3>✅ Compressão Concluída!</h3>
+            <div className="result-stats">
+              <div className="stat">
+                <span className="stat-label">Tamanho Original:</span>
+                <span className="stat-value">
+                  {FileCompressorService.formatFileSize(
+                    compressionResult.originalSize
+                  )}
+                </span>
               </div>
-            ) : (
-              <div className="file-placeholder">
-                <div className="upload-icon">📁</div>
-                <h3>
-                  Selecionar arquivo{" "}
-                  {selectedFileType === "pdf" ? "PDF" : "de imagem"}
-                </h3>
-                <p>
-                  Clique aqui para escolher um arquivo{" "}
-                  {selectedFileType === "pdf" ? "PDF" : "de imagem"} para
-                  comprimir
-                </p>
+              <div className="stat">
+                <span className="stat-label">Tamanho Comprimido:</span>
+                <span className="stat-value">
+                  {FileCompressorService.formatFileSize(
+                    compressionResult.compressedSize
+                  )}
+                </span>
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className="options-section">
-          <h3>Nível de Compressão</h3>
-          <div className="compression-slider-container">
-            <div className="slider-labels">
-              <span className="label-min">Baixa</span>
-              <span className="label-current">
-                {getCompressionSettings(compressionLevel).name}
-              </span>
-              <span className="label-max">Alta</span>
-            </div>
-            <input
-              type="range"
-              min="1"
-              max="3"
-              value={compressionLevel}
-              onChange={(e) => setCompressionLevel(parseInt(e.target.value))}
-              className="compression-slider"
-            />
-            <div className="compression-description">
-              {getCompressionSettings(compressionLevel).description}
-            </div>
-          </div>
-        </div>
-
-        <div className="actions-section">
-          {compressionResult && (
-            <div className="compression-result">
-              <h3>✅ Compressão Concluída!</h3>
-              <div className="result-stats">
+              <div className="stat highlight">
+                <span className="stat-label">Redução:</span>
+                <span className="stat-value">
+                  {compressionResult.compressionRatio}%
+                </span>
+              </div>
+              {compressionResult.newDimensions && (
                 <div className="stat">
-                  <span className="stat-label">Tamanho Original:</span>
+                  <span className="stat-label">Dimensões:</span>
                   <span className="stat-value">
-                    {FileCompressorService.formatFileSize(
-                      compressionResult.originalSize
-                    )}
+                    {compressionResult.originalDimensions} → {compressionResult.newDimensions}
                   </span>
                 </div>
-                <div className="stat">
-                  <span className="stat-label">Tamanho Comprimido:</span>
-                  <span className="stat-value">
-                    {FileCompressorService.formatFileSize(
-                      compressionResult.compressedSize
-                    )}
-                  </span>
-                </div>
-                <div className="stat highlight">
-                  <span className="stat-label">Redução:</span>
-                  <span className="stat-value">
-                    {compressionResult.compressionRatio}%
-                  </span>
-                </div>
-                {compressionResult.newDimensions && (
-                  <div className="stat">
-                    <span className="stat-label">Dimensões:</span>
-                    <span className="stat-value">
-                      {compressionResult.originalDimensions} →{" "}
-                      {compressionResult.newDimensions}
-                    </span>
-                  </div>
-                )}
-              </div>
-              {compressionResult.savedPath && (
-                <p className="save-location">
-                  📁 Salvo em: <code>{compressionResult.savedPath}</code>
-                </p>
               )}
             </div>
-          )}
-
-          {isCompressing && (
-            <div className="progress-section">
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
-              <p>Comprimindo... {progress}%</p>
-            </div>
-          )}
-
-          <div className="button-group">
-            <button
-              className="btn btn-primary"
-              onClick={compressFile}
-              disabled={!file || isCompressing}
-            >
-              {isCompressing
-                ? "Comprimindo..."
-                : `Comprimir ${selectedFileType === "pdf" ? "PDF" : "Imagem"}`}
-            </button>
-
-            {file && (
-              <button
-                className="btn btn-secondary"
-                onClick={resetForm}
-                disabled={isCompressing}
-              >
-                Limpar
-              </button>
+            {compressionResult.savedPath && (
+              <p className="save-location">
+                📁 Salvo em: <code>{compressionResult.savedPath}</code>
+              </p>
             )}
+            <button className="btn btn-secondary" onClick={resetForm} style={{marginTop: '1rem'}}>Fechar</button>
+          </div>
+          <div className="modal-blur" onClick={resetForm}></div>
+        </div>
+      )}
+      {!compressionResult && (
+        <div className="compressor-card">
+          <FileTypeSelector
+            selectedType={selectedFileType}
+            onTypeChange={setSelectedFileType}
+          />
+          <div className="file-section">
+            <div className="file-input-area" onClick={handleFileSelect}>
+              {fileName ? (
+                <div className="file-selected">
+                  <div className="file-icon">
+                    {selectedFileType === "pdf" ? "📄" : "🖼️"}
+                  </div>
+                  <div className="file-info">
+                    <h3>{fileName}</h3>
+                    <p>Clique para selecionar outro arquivo</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="file-placeholder">
+                  <div className="upload-icon">📁</div>
+                  <h3>
+                    Selecionar arquivo {selectedFileType === "pdf" ? "PDF" : "de imagem"}
+                  </h3>
+                  <p>
+                    Clique aqui para escolher um arquivo {selectedFileType === "pdf" ? "PDF" : "de imagem"} para comprimir
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="options-section">
+            <h3>Nível de Compressão</h3>
+            <div className="compression-slider-container">
+              <div className="slider-labels">
+                <span className="label-min">Baixa</span>
+                <span className="label-current">
+                  {getCompressionSettings(compressionLevel).name}
+                </span>
+                <span className="label-max">Alta</span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="3"
+                value={compressionLevel}
+                onChange={(e) => setCompressionLevel(parseInt(e.target.value))}
+                className="compression-slider"
+              />
+              <div className="compression-description">
+                {getCompressionSettings(compressionLevel).description}
+              </div>
+            </div>
+          </div>
+          <div className="actions-section">
+            {isCompressing && (
+              <div className="progress-section">
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+                <p>Comprimindo... {progress}%</p>
+              </div>
+            )}
+            <div className="button-group">
+              <button
+                className="btn btn-primary"
+                onClick={compressFile}
+                disabled={!file || isCompressing}
+              >
+                {isCompressing
+                  ? "Comprimindo..."
+                  : `Comprimir ${selectedFileType === "pdf" ? "PDF" : "Imagem"}`}
+              </button>
+              {file && (
+                <button
+                  className="btn btn-secondary"
+                  onClick={resetForm}
+                  disabled={isCompressing}
+                >
+                  Limpar
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

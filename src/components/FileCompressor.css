@@ -1,3 +1,35 @@
+/* Modal de resultado centralizado e fundo borrado */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.card-center {
+  position: relative;
+  z-index: 1001;
+  min-width: 350px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.modal-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(245,245,245,0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+}
 .file-compressor {
   width: 100%;
   max-width: 700px;

@@ -34,6 +34,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: dist/*.exe
+          files: dist/win-unpacked/PDF Compressor.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
